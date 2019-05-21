@@ -21,7 +21,7 @@ import (
 const (
 	libraryVersion            = "1"
 	userAgent                 = "oktasdk-go/" + libraryVersion
-	productionDomain          = "okta.com"
+	productionDomain          = "okta-emea.com"
 	previewDomain             = "oktapreview.com"
 	urlFormat                 = "https://%s.%s/api/v1/"
 	headerRateLimit           = "X-Rate-Limit-Limit"
