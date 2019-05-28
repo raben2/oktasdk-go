@@ -9,7 +9,6 @@ import (
 
 const (
 	groupRuleStatus            = "ACTIVE"
-	groupRuleTypeFilter        = "type"
 	groupRuleNameFilter        = "q"
 	groupRuleLastUpdatedFilter = "lastUpdated"
 	groupRuleExpressionType    = "urn:okta:expression:1.0"
@@ -34,7 +33,7 @@ type GroupRule struct {
 			}
 		}
 		Expression struct {
-			Value string `json:"value"` // f.e. "user.ProductGroup==\"pricing\"",
+			Value string `json:"value"` // f.e. "user.productGroup==\"pricing\"",
 			Type  string `json:"type"`  //defaults to "urn:okta:expression:1.0"
 		}
 	}
@@ -84,7 +83,7 @@ func (g *GroupRuleService) ListWithFilter(opt *GroupRuleFilterOptions) ([]GroupR
 		gr = opt.NextURL.String()
 	} else {
 		if opt.GroupRuleTypeEqual != "" {
-			opt.FilterString = appendToFilterString(opt.FilterString, GroupRuleTypeFilter, FilterEqualOperator, opt.GroupRuleTypeEqual)
+			opt.FilterString = appendToFilterString(opt.FilterString, FilterEqualOperator, opt.GroupRuleTypeEqual)
 		}
 		if (!opt.LastMembershipUpdated.Value.IsZero()) && (opt.LastMembershipUpdated.Operator != "") {
 			opt.FilterString = appendToFilterString(opt.FilterString, groupLastMembershipUpdatedFilter, opt.LastMembershipUpdated.Operator, opt.LastMembershipUpdated.Value.UTC().Format(oktaFilterTimeFormat))
