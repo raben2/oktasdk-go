@@ -154,7 +154,7 @@ func (g *GroupRuleService) Add(groupRuleName string, groupRuleCondition string) 
 	newGroupRule.Conditions.Expression.Value = groupRuleCondition
 	newGroupRule.Conditions.Expression.Type = groupRuleExpressionType
 
-	u := fmt.Sprintf("grouprule")
+	u := fmt.Sprintf("groups/rules")
 
 	req, err := g.client.NewRequest("POST", u, newGroupRule)
 
