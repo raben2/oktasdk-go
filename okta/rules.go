@@ -69,6 +69,7 @@ type newGroupRule struct {
 	Conditions struct {
 		Expression struct {
 			Value string `json:"value"`
+			Type  string `json:"type"`
 		}
 	}
 }
@@ -151,6 +152,7 @@ func (g *GroupRuleService) Add(groupRuleName string, groupRuleCondition string) 
 	newGroupRule := newGroupRule{}
 	newGroupRule.Name = groupRuleName
 	newGroupRule.Conditions.Expression.Value = groupRuleCondition
+	newGroupRule.Conditions.Expression.Type = groupRuleExpressionType
 
 	u := fmt.Sprintf("grouprule")
 
