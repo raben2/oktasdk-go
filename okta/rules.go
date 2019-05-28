@@ -72,6 +72,11 @@ type newGroupRule struct {
 			Type  string `json:"type"`
 		}
 	}
+	Actions struct {
+		AssignUserToGroups struct {
+			GroupIds []string `json:"groupIds"`
+		}
+	}
 }
 
 // ListWithFilter - Method to list group rules by filters like name
@@ -141,7 +146,7 @@ func (g *GroupRuleService) ListWithFilter(opt *GroupRuleFilterOptions) ([]GroupR
 }
 
 // Add creates a new Grouprule based on the Matching string
-func (g *GroupRuleService) Add(groupRuleName string, groupRuleCondition string) (*GroupRule, *Response, error) {
+func (g *GroupRuleService) Add(groupRuleName string, groupRuleCondition string, groupToAddAction []string) (*GroupRule, *Response, error) {
 
 	if groupRuleName == "" {
 		return nil, nil, errors.New("groupRuleName parameter is required for ADD")
@@ -153,6 +158,7 @@ func (g *GroupRuleService) Add(groupRuleName string, groupRuleCondition string) 
 	newGroupRule.Name = groupRuleName
 	newGroupRule.Conditions.Expression.Value = groupRuleCondition
 	newGroupRule.Conditions.Expression.Type = groupRuleExpressionType
+	newGroupRule.Actions.AssignUserToGroups.GroupIds = groupToAddAction
 
 	u := fmt.Sprintf("groups/rules")
 
