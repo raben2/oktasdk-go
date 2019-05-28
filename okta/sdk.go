@@ -82,7 +82,8 @@ type Client struct {
 	Users *UsersService
 
 	// Service for Working with Groups
-	Groups *GroupsService
+	Groups     *GroupsService
+	GroupRules *GroupRuleService
 
 	// Service for Working with Apps
 	Apps *AppsService
@@ -137,6 +138,7 @@ func NewClientWithBaseURL(httpClient *http.Client, baseURL *url.URL, apiToken st
 	c.Users = (*UsersService)(&c.common)
 	c.Groups = (*GroupsService)(&c.common)
 	c.Apps = (*AppsService)(&c.common)
+	c.GroupRules = (*GroupRuleService)(&c.common)
 	return c
 }
 
