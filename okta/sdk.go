@@ -95,10 +95,14 @@ type service struct {
 
 // NewClient returns a new OKTA API client.  If a nil httpClient is
 // provided, http.DefaultClient will be used.
-func NewClient(httpClient *http.Client, orgName string, apiToken string, isProduction bool) *Client {
+func NewClient(httpClient *http.Client, orgName string, oktaDomain string, apiToken string, isProduction bool) *Client {
 	var baseDomain string
 	if isProduction {
-		baseDomain = productionDomain
+		if oktaDomain != "" {
+			baseDomain = oktaDomain
+		} else {
+			baseDomain = productionDomain
+		}
 	} else {
 		baseDomain = previewDomain
 	}
@@ -271,7 +275,6 @@ func (c *Client) Do(req *http.Request, v interface{}) (*Response, error) {
 		// even though there was an error, we still return the response
 		// in case the caller wants to inspect it further
 		// fmt.Printf("Error after sdk.Do return\n")
-
 		return response, err
 	}
 
@@ -494,7 +497,9 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 	if c.UserAgent != "" {
 		req.Header.Set("User-Agent", c.UserAgent)
 	}
+
 	return req, nil
+
 }
 
 // addOptions adds the parameters in opt as URL query parameters to s.  opt

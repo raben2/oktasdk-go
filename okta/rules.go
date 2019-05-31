@@ -65,18 +65,20 @@ type GroupRuleFilterOptions struct {
 	LastMembershipUpdated dateFilter `url:"-"`
 }
 type newGroupRule struct {
+	Type       string `json:"type"`
 	Name       string `json:"name"`
+	Status     string `json:"status"`
 	Conditions struct {
 		Expression struct {
 			Value string `json:"value"`
 			Type  string `json:"type"`
-		}
-	}
+		} `json:"expression"`
+	} `json:"conditions"`
 	Actions struct {
 		AssignUserToGroups struct {
 			GroupIds []string `json:"groupIds"`
-		}
-	}
+		} `json:"assignUserToGroups"`
+	} `json:"actions"`
 }
 
 // ListWithFilter - Method to list group rules by filters like name
@@ -155,6 +157,8 @@ func (g *GroupRuleService) Add(groupRuleName string, groupRuleCondition string, 
 		return nil, nil, errors.New("groupRuleCondition parameter is required for ADD")
 	}
 	newGroupRule := newGroupRule{}
+	newGroupRule.Status = groupRuleStatus
+	newGroupRule.Type = groupRuleTypeFilter
 	newGroupRule.Name = groupRuleName
 	newGroupRule.Conditions.Expression.Value = groupRuleCondition
 	newGroupRule.Conditions.Expression.Type = groupRuleExpressionType
